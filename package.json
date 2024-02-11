@@ -1,0 +1,25 @@
+{
+  "name": "utilitybot",
+  "version": "1.0.0",
+  "description": "Discord bot that acts like a swiss knife. Multi-purpose",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Skelation/UtilityBot.git"
+  },
+  "author": "Heribio, AzurPanto",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Skelation/UtilityBot/issues"
+  },
+  "homepage": "https://github.com/Skelation/UtilityBot#readme",
+  "dependencies": {
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.4.2"
+  }
+}
