@@ -94,6 +94,8 @@ body: [
 ]
 ```
 
+4. Run `npm run cmds` to register your command
+
 #### Thats it !
 
 ---

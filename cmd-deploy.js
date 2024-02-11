@@ -1,27 +1,29 @@
-const { REST, Routes, SlashCommandBuilder } = require("discord.js")
-require("dotenv").config({ path: 'config/.env' });
+import { REST, Routes, SlashCommandBuilder } from "discord.js";
+import dotenv from "dotenv";
 
-const botID = process.env.BOT_ID
-const serverID = process.env.SERVER_ID
-const botToken = process.env.TOKEN
+dotenv.config({ path: 'config/.env' });
 
-const rest = new REST().setToken(botToken)
+const botID = process.env.BOT_ID;
+const serverID = process.env.SERVER_ID;
+const botToken = process.env.TOKEN;
+
+const rest = new REST().setToken(botToken);
+
 const slashRegister = async () => {
     try {
         await rest.put(Routes.applicationGuildCommands(botID, serverID), {
             body: [
                 new SlashCommandBuilder()
-                .setName("agenda")
-                .setDescription("Edit your agenda"),
+                    .setName("agenda")
+                    .setDescription("Edit your agenda"),
 
-                //Add Other commands
-
-            ]
-        })
+                // Add other commands
+            ],
+        });
     } catch (error) {
-    console.log(error)
+        console.log(error);
     }
-}
+};
 
 slashRegister();
-console.log("Registered slash commands")
+console.log("Registered slash commands");
