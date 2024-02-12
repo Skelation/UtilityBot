@@ -40,8 +40,9 @@ const slashRegister = async () => {
                 new SlashCommandBuilder()
                 .setName("agenda_view")
                 .setDescription("view your agenda"),
+
                 new SlashCommandBuilder()
-                .setname("note_add")
+                .setName("note_add")
                 .setDescription("add to your notes"),
                 
             ]
