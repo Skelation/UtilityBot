@@ -43,7 +43,14 @@ const slashRegister = async () => {
 
                 new SlashCommandBuilder()
                 .setName("note_add")
-                .setDescription("add to your notes"),
+                .setDescription("add to your notes")
+                .addStringOption( option => 
+                    option.setName("Title")
+                    .setDescription("Enter the title of your note")
+                    .setRequired(true),
+                    option.setName("Content")
+                    .setDescription("Enter the body of your note")
+                    .setRequired(true)),
                 
             ]
         })
