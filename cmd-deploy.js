@@ -32,11 +32,14 @@ const slashRegister = async () => {
                 new SlashCommandBuilder()
                 .setName("agenda_remove")
                 .setDescription("remove from your agenda")
-                .addStringOption( option =>
-                    option.setName("date")
-                    .setDescription("Enter a date. FORMAT: DD/MM/YY")
+                .addIntegerOption( option =>
+                    option.setName("index")
+                    .setDescription("Enter index of item to remove. See the index in /agenda_view")
                     .setRequired(true)
-                )
+                ),
+                new SlashCommandBuilder()
+                .setName("agenda_view")
+                .setDescription("view your agenda"),
             ]
         })
     } catch (error) {
