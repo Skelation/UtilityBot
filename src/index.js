@@ -2,6 +2,7 @@ import  { Client, IntentsBitField, ActivityType, EmbedBuilder } from "discord.js
 
 import dotenv from "dotenv";
 dotenv.config({ path: 'config/.env' });
+import fs, {cp} from "fs"
 
 const DISCORD_TOKEN = process.env.TOKEN;
 
@@ -14,12 +15,22 @@ const client = new Client({
     ],
 });
 
+const filePath = "/config/data.json";
+try {
+    if (fs.existsSync(filePath)) {
+        const rawData = fs.readFileSync(filePath);
+        data = JSON.parse(rawData)
+    }
+} catch(error) {
+    console.log(error)
+}
+
 client.on("ready", () => {
-    console.log("Ready for waffling");
-    console.log(`${client.user.tag} is waffling`);
+    console.log(`Logged in as ${client.user.tag}!`);
+    console.log(`${client.user.tag} is utilitying`);
   
     client.user.setActivity({
-      name: "bluds waffling",
+      name: "your problems",
       type: ActivityType.Listening,
     });
 });
@@ -29,20 +40,25 @@ function ping(interaction) {
     interaction.reply({ content: "Pong!"});
 }
 
-//Add more commands
+//Agenda command
+function agenda(interaction) {
+    
+    interaction.reply({content: "in_dev"})
+}
+
+
 
 //Slash Commands
 client.on("interactionCreate", async (interaction) => {
+    console.log(interaction.commandName);
     if (interaction.isCommand()) {
         try {
             if (interaction.commandName === "ping") {
-            await interaction.deferReply();
-            await interaction.deleteReply();
-            await ping(interaction);
+                await ping(interaction);
             }
-            //Add more commands
-
-
+            if (interaction.commandName === "agenda") {
+                await agenda(interaction);
+            }
         } catch (error) {
             console.error(error);
             await interaction.reply({ content: "There was an error while executing this command!", ephemeral: true });
