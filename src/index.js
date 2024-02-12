@@ -15,20 +15,11 @@ const client = new Client({
     ],
 });
 
-const filePath = "/config/data.json";
-try {
-    if (fs.existsSync(filePath)) {
-        const rawData = fs.readFileSync(filePath);
-        data = JSON.parse(rawData)
-    }
-} catch(error) {
-    console.log(error)
-}
 
 client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`);
     console.log(`${client.user.tag} is utilitying`);
-  
+  //Client Activity
     client.user.setActivity({
       name: "your problems",
       type: ActivityType.Listening,
@@ -104,7 +95,7 @@ function agenda_add(interaction) {
         console.log(error);
     }
 }
-
+// Agenda View Command
 function agenda_view(interaction) {
     const filePath = "data.json";
     let data = {};
@@ -140,7 +131,7 @@ function agenda_view(interaction) {
     }
 }
 
-//Agenda delete command
+//Agenda Delete Command
 function agenda_delete(interaction) {
     const filePath = "data.json";
     let data = {};
