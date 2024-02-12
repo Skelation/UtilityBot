@@ -47,7 +47,8 @@ const slashRegister = async () => {
                 .addStringOption( option => 
                     option.setName("Title")
                     .setDescription("Enter the title of your note")
-                    .setRequired(true),
+                    .setRequired(true))
+                .addStringOption( option =>
                     option.setName("Content")
                     .setDescription("Enter the body of your note")
                     .setRequired(true)),
