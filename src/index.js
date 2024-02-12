@@ -2,6 +2,7 @@ import  { Client, IntentsBitField, ActivityType, EmbedBuilder } from "discord.js
 
 import dotenv from "dotenv";
 dotenv.config({ path: 'config/.env' });
+const keep_alive = require('./keep_alive.js')
 import fs, {cp} from "fs"
 
 const DISCORD_TOKEN = process.env.TOKEN;
