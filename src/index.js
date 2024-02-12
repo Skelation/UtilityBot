@@ -57,7 +57,7 @@ function ping(interaction) {
     interaction.reply({ content: "Pong!"});
 }
 
-//agenda command
+//agenda add command
 function agenda_add(interaction) {
     const filePath = "data.json";
     let data = {};
