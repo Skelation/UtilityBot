@@ -182,8 +182,8 @@ function note_add(interaction) {
             data[interaction.user.id] = [];
         }
 
-        const date = interaction.options.getString("Title");
-        const content = interaction.options.getString("Content");
+        const date = interaction.options.getString("title");
+        const content = interaction.options.getString("content");
             data[interaction.user.id].push({ date: date, content: content });
             fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 

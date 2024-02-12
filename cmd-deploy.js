@@ -45,11 +45,11 @@ const slashRegister = async () => {
                 .setName("note_add")
                 .setDescription("add to your notes")
                 .addStringOption( option => 
-                    option.setName("Title")
+                    option.setName("title")
                     .setDescription("Enter the title of your note")
                     .setRequired(true))
                 .addStringOption( option =>
-                    option.setName("Content")
+                    option.setName("content")
                     .setDescription("Enter the body of your note")
                     .setRequired(true)),
                 
