@@ -40,6 +40,19 @@ const slashRegister = async () => {
                 new SlashCommandBuilder()
                 .setName("agenda_view")
                 .setDescription("view your agenda"),
+
+                new SlashCommandBuilder()
+                .setName("note_add")
+                .setDescription("add to your notes")
+                .addStringOption( option => 
+                    option.setName("title")
+                    .setDescription("Enter the title of your note")
+                    .setRequired(true))
+                .addStringOption( option =>
+                    option.setName("content")
+                    .setDescription("Enter the body of your note")
+                    .setRequired(true)),
+                
             ]
         })
     } catch (error) {
