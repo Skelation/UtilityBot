@@ -1,17 +1,22 @@
-import  { Client, IntentsBitField, ActivityType, EmbedBuilder } from "discord.js";
+import {
+    Client,
+    IntentsBitField,
+    ActivityType,
+    EmbedBuilder,
+} from "discord.js";
 
 import dotenv from "dotenv";
-dotenv.config({ path: 'config/.env' });
-import fs, {cp} from "fs"
+dotenv.config({ path: "config/.env" });
+import fs, { cp } from "fs";
 
 const DISCORD_TOKEN = process.env.TOKEN;
 
 const client = new Client({
     intents: [
-      IntentsBitField.Flags.Guilds,
-      IntentsBitField.Flags.GuildMessages,
-      IntentsBitField.Flags.GuildMembers,
-      IntentsBitField.Flags.MessageContent,
+        IntentsBitField.Flags.Guilds,
+        IntentsBitField.Flags.GuildMessages,
+        IntentsBitField.Flags.GuildMembers,
+        IntentsBitField.Flags.MessageContent,
     ],
 });
 
@@ -19,27 +24,25 @@ const filePath = "/config/data.json";
 try {
     if (fs.existsSync(filePath)) {
         const rawData = fs.readFileSync(filePath);
-        data = JSON.parse(rawData)
+        data = JSON.parse(rawData);
     }
-} catch(error) {
-    console.log(error)
+} catch (error) {
+    console.log(error);
 }
 
 client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`);
     console.log(`${client.user.tag} is utilitying`);
-  
+
     client.user.setActivity({
-      name: "your problems",
-      type: ActivityType.Listening,
+        name: "your problems",
+        type: ActivityType.Listening,
     });
 });
 
-function isValidDate(dateString)
-{
+function isValidDate(dateString) {
     // First check for the pattern
-    if(!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString))
-        return false;
+    if (!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString)) return false;
 
     // Parse the date parts to integers
     var parts = dateString.split("/");
@@ -48,22 +51,21 @@ function isValidDate(dateString)
     var year = parseInt(parts[2], 10);
 
     // Check the ranges of month and year
-    if(year < 1000 || year > 3000 || month == 0 || month > 12)
-        return false;
+    if (year < 1000 || year > 3000 || month == 0 || month > 12) return false;
 
-    var monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+    var monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
     // Adjust for leap years
-    if(year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
+    if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
         monthLength[1] = 29;
 
     // Check the range of the day
     return day > 0 && day <= monthLength[month - 1];
-};
+}
 
 //Ping command
 function ping(interaction) {
-    interaction.reply({ content: "Pong!"});
+    interaction.reply({ content: "Pong!" });
 }
 
 //agenda command
@@ -94,7 +96,7 @@ function agenda_add(interaction) {
             const embed = new EmbedBuilder()
                 .setTitle("Agenda")
                 .setDescription(`Added "${content}" to your agenda at ${date}`)
-                .setTimestamp()
+                .setTimestamp();
             interaction.channel.send({ embeds: [embed] });
         } else {
             console.log(isValidDate(date));
@@ -123,13 +125,13 @@ function agenda_view(interaction) {
             for (let i = 0; i < data[interaction.user.id].length; i++) {
                 const date = data[interaction.user.id][i]["date"];
                 const content = data[interaction.user.id][i]["content"];
-                let dateEvent = (`${i + 1}. ${date} ${content}`);
+                let dateEvent = `${i + 1}. ${date} ${content}`;
 
-                const embed = new EmbedBuilder()    
+                const embed = new EmbedBuilder()
                     .setTitle("Agenda")
                     .setColor("#0099ff")
                     .setTimestamp()
-                    .setDescription(dateEvent)
+                    .setDescription(dateEvent);
                 interaction.channel.send({ embeds: [embed] });
             }
         } else {
@@ -160,15 +162,15 @@ function agenda_delete(interaction) {
                 data[interaction.user.id].splice(index - 1, 1);
                 fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
                 const embed = new EmbedBuilder()
-                .setTitle("Agenda")
-                .setColor("#0099ff")
-                .setTimestamp()
-                .setDescription(`Deleted agenda item ${index}`)
+                    .setTitle("Agenda")
+                    .setColor("#0099ff")
+                    .setTimestamp()
+                    .setDescription(`Deleted agenda item ${index}`);
                 interaction.channel.send({ embeds: [embed] });
-        } else {
-            interaction.channel.send("Invalid index!");
+            } else {
+                interaction.channel.send("Invalid index!");
+            }
         }
-    }
     } catch (error) {
         console.log(error);
     }
@@ -199,9 +201,12 @@ client.on("interactionCreate", async (interaction) => {
             }
         } catch (error) {
             console.error(error);
-            await interaction.reply({ content: "There was an error while executing this command!", ephemeral: true });
+            await interaction.reply({
+                content: "There was an error while executing this command!",
+                ephemeral: true,
+            });
         }
     }
-})
+});
 
 client.login(DISCORD_TOKEN);
