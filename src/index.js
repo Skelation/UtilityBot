@@ -52,16 +52,78 @@ function note_add(interaction) {
       data[interaction.user.id] = [];
     }
 
-    const date = interaction.options.getString("title");
+    const title = interaction.options.getString("title");
     const content = interaction.options.getString("content");
-    data[interaction.user.id].push({ date: date, content: content });
+    data[interaction.user.id].push({ title: title, content: content });
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 
     const embed = new EmbedBuilder()
       .setTitle("Notes")
-      .setDescription(`Added "${content}" to your notes called ${Title}`)
+      .setDescription(`Added "${content}" to your notes called ${title}`)
       .setTimestamp();
     interaction.channel.send({ embeds: [embed] });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function note(interaction) {
+  const filePath = "note_data.json";
+  let data = {};
+
+  try {
+    if (fs.existsSync(filePath)) {
+      const rawData = fs.readFileSync(filePath);
+      if (rawData.length > 0) {
+        data = JSON.parse(rawData);
+      }
+    }
+    if (!data[interaction.user.id]) {
+      interaction.reply("No data for this user");
+      return;
+    }
+    for (let i = 0; i < data[interaction.user.id].length; i++) {
+      let title = data[interaction.user.id][i]["title"];
+      let content = data[interaction.user.id][i]["content"];
+
+      const embed = new EmbedBuilder()
+        .setTitle(`${i + 1}. ` + title)
+        .setDescription(content);
+      console.log("test");
+      interaction.channel.send({ embeds: [embed] });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function note_delete(interaction) {
+  const filePath = "note_data.json";
+  let data = {};
+
+  try {
+    //Setup json file incase file isn't there
+    if (fs.existsSync(filePath)) {
+      const rawData = fs.readFileSync(filePath);
+      if (rawData.length > 0) {
+        data = JSON.parse(rawData);
+      }
+    }
+    if (!data[interaction.user.id]) {
+      interaction.channel.send("No Data for this user");
+      return;
+    }
+    const index = interaction.options.get("index");
+
+    console.log(index.value);
+    if (index.value > 0 && index.value <= data[interaction.user.id].length) {
+      data[interaction.user.id].splice(index.value - 1, 1);
+      fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+      const embed = new EmbedBuilder().setTitle(
+        `Deleted Note, index n.${index}`,
+      );
+      interaction.channel.send({ embeds: [embed] });
+    }
   } catch (error) {
     console.log(error);
   }
@@ -79,6 +141,26 @@ client.on("interactionCreate", async (interaction) => {
         await interaction.deferReply();
         await interaction.deleteReply();
         note_add(interaction);
+      }
+      if (interaction.commandName === "note_delete") {
+        await interaction.deferReply();
+        await interaction.deleteReply();
+        note_delete(interaction);
+      }
+      if (interaction.commandName === "note") {
+        await interaction.deferReply();
+        await interaction.deleteReply();
+        note(interaction);
+      }
+      if (interaction.commandName === "synthese") {
+        await interaction.deferReply();
+        await interaction.deleteReply();
+        synthese(interaction);
+      }
+      if (interaction.commandName === "synthese_add") {
+        await interaction.deferReply();
+        await interaction.deleteReply();
+        synthese_add(interaction);
       }
     } catch (error) {
       console.error(error);

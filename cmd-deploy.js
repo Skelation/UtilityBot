@@ -30,6 +30,24 @@ const slashRegister = async () => {
               .setDescription("Enter the body of your note")
               .setRequired(true),
           ),
+        new SlashCommandBuilder()
+          .setName("note")
+          .setDescription("See your notes")
+          .addStringOption((option) =>
+            option
+              .setName("title")
+              .setDescription("Enter the title of the note to view it")
+              .setRequired(false),
+          ),
+        new SlashCommandBuilder()
+          .setName("note_delete")
+          .setDescription("Delete a note")
+          .addStringOption((option) =>
+            option
+              .setName("index")
+              .setDescription("Index of the note. Find it with /note")
+              .setRequired(true),
+          ),
       ],
     });
   } catch (error) {
