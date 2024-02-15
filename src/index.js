@@ -71,6 +71,7 @@ function note_add(interaction) {
 function note(interaction) {
   const filePath = "note_data.json";
   let data = {};
+  let embedContent = '';
 
   try {
     if (fs.existsSync(filePath)) {
@@ -86,13 +87,13 @@ function note(interaction) {
     for (let i = 0; i < data[interaction.user.id].length; i++) {
       let title = data[interaction.user.id][i]["title"];
       let content = data[interaction.user.id][i]["content"];
-
-      const embed = new EmbedBuilder()
-        .setTitle(`${i + 1}. ` + title)
-        .setDescription(content);
-      console.log("test");
-      interaction.channel.send({ embeds: [embed] });
+      embedContent += `\n\n${i + 1}. ` + title;
     }
+    const embed = new EmbedBuilder()
+      .setTitle("Notes")
+      .setDescription(embedContent);
+    console.log("test");
+    interaction.channel.send({ embeds: [embed] });
   } catch (error) {
     console.log(error);
   }
@@ -165,6 +166,7 @@ function synthese(interaction) {
   let filePath = "note_data.json";
   let data = {};
   let topic = interaction.options.get("topic");
+  let syntheses = "";
   try {
     if (fs.existsSync(filePath)) {
       const rawData = fs.readFileSync(filePath);
@@ -179,14 +181,16 @@ function synthese(interaction) {
     for (let i = 0; i < data[topic.value].length; i++) {
       let title = data[topic.value][i]["title"];
       let link = data[topic.value][i]["link"];
-      const embed = new EmbedBuilder()
-      .setTitle(`${i + 1}. ` + title)
-      .setDescription(link);
-      console.log("test");
-      interaction.channel.send({ embeds: [embed] });
-      console.log(data);
-      fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+
+      syntheses += `${i + 1}. ${title} - ${link}\n`;
     }
+    const embed = new EmbedBuilder()
+    .setTitle(`Synthese for ${topic.value}`)
+    .setDescription(syntheses);
+    console.log("test");
+    interaction.channel.send({ embeds: [embed] });
+    console.log(data);
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
   }catch (error) {
     console.log(error);
   }
