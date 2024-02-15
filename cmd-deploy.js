@@ -82,6 +82,28 @@ const slashRegister = async () => {
               .setDescription("Google docs link to the synthese")
               .setRequired(true),
           ),
+          new SlashCommandBuilder()
+          .setName("synthese")
+          .setDescription("See your syntheses")
+          .addStringOption((option) =>
+            option
+              .setName("topic")
+              .setDescription("Topic of the synthese")
+              .setRequired(true)
+              .addChoices(
+                { name: "Math", value: "math" },
+                { name: "Français", value: "francais" },
+                { name: "Chimie", value: "chimie" },
+                { name: "Physique", value: "physique" },
+                { name: "Biologie", value: "biologie" },
+                { name: "Histoire", value: "histoire" },
+                { name: "Anglais", value: "anglais" },
+                { name: "Néerlandais", value: "neerlandais" },
+                { name: "Espagnol", value: "espagnol" },
+                { name: "Religion", value: "religion" },
+                { name: "Géographie", value: "geographie" },
+              ),
+          ),
       ],
     });
   } catch (error) {
