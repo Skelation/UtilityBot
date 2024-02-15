@@ -48,6 +48,40 @@ const slashRegister = async () => {
               .setDescription("Index of the note. Find it with /note")
               .setRequired(true),
           ),
+        new SlashCommandBuilder()
+          .setName("synthese_add")
+          .setDescription("Add a synthese")
+          .addStringOption((option) =>
+            option
+              .setName("topic")
+              .setDescription("Topic of the synthese")
+              .setRequired(true)
+              .addChoices(
+                { name: "Math", value: "math" },
+                { name: "Français", value: "francais" },
+                { name: "Chimie", value: "chimie" },
+                { name: "Physique", value: "physique" },
+                { name: "Biologie", value: "biologie" },
+                { name: "Histoire", value: "histoire" },
+                { name: "Anglais", value: "anglais" },
+                { name: "Néerlandais", value: "neerlandais" },
+                { name: "Espagnol", value: "espagnol" },
+                { name: "Religion", value: "religion" },
+                { name: "Géographie", value: "geographie" },
+              ),
+          )
+          .addStringOption((option) =>
+            option
+              .setName("title")
+              .setDescription("Title of the synthese")
+              .setRequired(true),
+          )
+          .addStringOption((option) =>
+            option
+              .setName("link")
+              .setDescription("Google docs link to the synthese")
+              .setRequired(true),
+          ),
       ],
     });
   } catch (error) {

@@ -67,6 +67,7 @@ function note_add(interaction) {
   }
 }
 
+//TODO if argument is given, show the note with, as the input the correct title or index
 function note(interaction) {
   const filePath = "note_data.json";
   let data = {};
@@ -124,6 +125,37 @@ function note_delete(interaction) {
       );
       interaction.channel.send({ embeds: [embed] });
     }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function synthese_add(interaction) {
+  let filePath = "note_data.json";
+  let data = {};
+
+  let topic = interaction.options.get("topic");
+  let title = interaction.options.get("title");
+  let link = interaction.options.get("link");
+  try {
+    //Setup json file incase file isn't there
+    if (fs.existsSync(filePath)) {
+      const rawData = fs.readFileSync(filePath);
+      if (rawData.length > 0) {
+        data = JSON.parse(rawData);
+      }
+    }
+    if (!data[topic.value]) {
+      data[topic.value] = [];
+    }
+    data[topic.value].push({ title: title.value, link: link.value });
+    const embed = new EmbedBuilder()
+      .setTitle("Added Synthese")
+      .setDescription(`Added ${title.value} to the syntheses`);
+
+    interaction.channel.send({ embeds: [embed] });
+    console.log(data);
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2)); 
   } catch (error) {
     console.log(error);
   }
