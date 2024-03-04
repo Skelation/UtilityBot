@@ -1,3 +1,4 @@
 /config/.env
 /node_modules
 note_data.json
+.DS_Store
