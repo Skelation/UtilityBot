@@ -2,6 +2,7 @@ import {
   Client,
   IntentsBitField,
   ActivityType,
+  WebhookClient,
 } from "discord.js";
 
 import dotenv from "dotenv";
@@ -34,6 +35,20 @@ client.on("ready", () => {
     type: ActivityType.Listening,
   });
 });
+
+//Repeat message 
+//client.on("messageCreate", (message) => {
+//    const webhookId = process.env.WEBHOOK_ID;
+//    const webhookToken = process.env.WEBHOOK_TOKEN;
+
+//    const webhookClient = new WebhookClient({ id: webhookId, token: webhookToken });
+//    if (message.author.bot) return;
+//    webhookClient.send({
+//        content: message.content,
+//        username: message.author.username,
+//        avatarURL: message.author.avatarURL(),
+//    });
+//});
 
 //Slash Commands
 client.on("interactionCreate", async (interaction) => {
