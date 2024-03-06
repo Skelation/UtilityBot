@@ -21,7 +21,7 @@ const client = new Client({
 
 import ping from './commands/ping.js';
 import note_add from './commands/note_add.js';
-import note from './commands/note_add.js';
+import note from './commands/note.js';
 import note_delete from './commands/note_delete.js';
 import synthese_add from './commands/synthese_add.js';
 import synthese from './commands/synthese.js';
@@ -56,6 +56,8 @@ client.on("interactionCreate", async (interaction) => {
   if (interaction.isCommand()) {
     try {
       if (interaction.commandName === "ping") {
+        await interaction.deferReply();
+        await interaction.deleteReply();
         ping(interaction);
       }
       if (interaction.commandName === "note_add") {
